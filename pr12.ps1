@@ -8,7 +8,16 @@ function countstop {
     $services.Count
 }
 
-function countstart {
-    $services = Get-Service | Where {$_.Status -like 'Running'}
+function countservice {
+    param (
+        [string]$status
+    )
+    $services = Get-Service | Where {$_.Status -like $status}
     $services.Count
 }
+
+Write-host "Total services in Running state = $(countstart)"
+Write-host "Total services in Stopped state = $(countstop)"
+Write-Host
+Write-host "Total services in Running state = $(countservice('Running'))"
+Write-host "Total services in Running state = $(countservice -status 'Stopped')"
